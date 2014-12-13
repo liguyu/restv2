@@ -1,0 +1,28 @@
+﻿<UserControl
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	 xmlns:a="clr-namespace:Com.Aote.Attachs;assembly=s2DLL"
+    xmlns:o="clr-namespace:Com.Aote.ObjectTools;assembly=s2DLL"
+    xmlns:b="clr-namespace:Com.Aote.Behaviors;assembly=s2DLL"
+    xmlns:m="clr-namespace:Com.Aote.Marks;assembly=s2DLL"
+    xmlns:c="clr-namespace:Com.Aote.Controls;assembly=s2DLL"
+	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+    xmlns:data="clr-namespace:System.Windows.Data;assembly=System.Windows"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit" 
+	  mc:Ignorable="d"
+	x:Class="Com.Aote.Pages.打开子窗口"
+	d:DesignWidth="640" d:DesignHeight="480">
+
+	<Grid HorizontalAlignment="Stretch" Height="Auto" Margin="56,106,230,88" Grid.Row="4" VerticalAlignment="Stretch" Width="Auto">
+	   		<m:ResourceLoad>
+            <o:ChildWindowObj Name="cc" CWName="/Pages/TestOpen"   />
+        </m:ResourceLoad>
+	   		<Button Content="Button" Margin="8,18,126,0" Click="{m:Exp Str='cc.IsOpen=True'}" Height="27" VerticalAlignment="Top"/>
+	   		<sdk:Label Height="67" Margin="72,0,97,8" Content="{m:Exp Str='cc.Result'}" VerticalAlignment="Bottom"/>
+			
+	   	</Grid>
+</UserControl>

@@ -1,0 +1,50 @@
+一 程序
+
+ public App()
+        {
+
+
+           if (App.Current.InstallState == InstallState.Installed)
+            {
+                   App.Current.CheckAndDownloadUpdateCompleted += OnCheckAndDownloadUpdateCompleted;
+                   App.Current.CheckAndDownloadUpdateAsync();
+            }
+            this.Startup += (o, e) => 
+            { 
+                this.RootVisual = new Com.Aote.Pages.Frame(); 
+            };
+            this.Exit += this.Application_Exit;
+            this.UnhandledException += this.Application_UnhandledException;
+            
+            InitializeComponent();
+        }
+
+
+
+ private void OnCheckAndDownloadUpdateCompleted(object sender, CheckAndDownloadUpdateCompletedEventArgs e)
+        {
+
+             if (e.UpdateAvailable && e.Error == null)
+            {
+                MessageBox.Show("应用新版本已经下载成功，窗口即将关闭，请重启程序。");
+
+                Application.Current.MainWindow.Close();
+            }
+            else if (e.Error != null)
+            {
+                MessageBox.Show("在检测应用更新时, 在"
+                             + "出现以下错误信息:"
+                             + Environment.NewLine
+                             + Environment.NewLine
+                             + e.Error.Message);
+            }
+        }
+
+
+二 打包
+
+
+1 点击工程 属性/signing
+选中 sign the xap file ，使用select from file选择签名文件，密码为1
+
+2 注意以前下的桌面程序不行，必须重新下签过名的才能更新

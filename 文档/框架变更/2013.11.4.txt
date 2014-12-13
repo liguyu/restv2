@@ -1,0 +1,7 @@
+1. 列表中对象的PropertySetter在列表对象里设置，引用当前数据时用this，不能用data。
+
+2. Decimal可以转换成Double。
+
+3. Deciaml可以与其他原子类型进行比较。
+
+4. HQLAction可以通过设置Type="sql"来执行SQL语句，后台服务需要相应修改。

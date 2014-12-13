@@ -1,0 +1,19 @@
+LogParser用于从一批日志文件中找到含关键字的行，具体操作如下：
+
+1. 把LogParser.class 复制到 工作目录的 com\aote\util 文件夹下
+2. 把所有日志文件复制到工作目录的某个文件夹下
+3. 在命令行里执行如下命令，找到含关键字的行
+
+java -classpath . -Xms256M -Xmx500M com.aote.util.LogParser F:\日志名   刘,entity f:\test.txt
+
+上述命令的意思是，从F:\日志名 目录下找 含有 刘 及 entity关键字的行，找到的结果放到 f:\test.txt目录下
+
+
+LogReader用于从某个过大的日志文件中获取连续的行，具体操作如下：
+
+1. 把LogReader.class 复制到 工作目录的 com\aote\util 文件夹下
+2. 在命令行里执行如下命令
+
+java -classpath . -Xms256M -Xmx500M com.aote.util.LogReader F:\日志名\日志1 100,200 f:\test.txt
+
+上述命令的意思是，从F:\日志名\日志1 里，获取开始行为100，行数为200的内容到 f:\test.txt

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd 
+       	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+       	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+	<context:annotation-config />
+	<context:component-scan base-package="com.aote.rs" />   
+	
+	
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
+		<property name="url" value="jdbc:sqlserver://127.0.0.1;database=yulingas;" />
+		<property name="username" value="sa" />
+		<property name="password" value="000000" />
+	</bean>
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="/WEB-INF/classes/hibernate.cfg.xml" />
+	</bean>
+	
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	
+	<bean id="SerialNumber"
+		class="com.aote.expression.paramprocessor.SerialNumberProcessor">
+	</bean>
+	
+	 <bean id="waitwork" class="com.aote.helper.XmlDocument">
+    	<property name="path" value="/逾期提醒配置.xml" />
+     </bean>
+     
+     <bean id="functionobj" class="com.aote.helper.FunctionObject">
+     	<property name="url" value="http://192.168.2.46:83/rs/user/" />
+     	<property name="rootname" value="报建系统" />
+     	<property name="parentfuns" value="民用集中报建" />
+       </bean>
+</beans>

@@ -1,0 +1,16 @@
+变更原因：银光不支持后台排序。
+
+变更过程：
+
+1. 通过给DataGrid附加ServerSort="true"属性，表明执行后台排序。
+
+2. 给ObjectList添加属性SortNames，按 header内容:排序字段方式确定每一列的排序字段。
+
+3. ObjectList添加属性SortName，代表当前排序字段。
+
+6. ObjectList添加属性Order的代表正序还是倒序，当排序字段没有变化时，正序、倒序将相互替换。
+
+4. ObjectList的SQL语句中的排序部分，通过表达式获得。当SQL语句发生变化时，自动加载本页
+数据。
+
+5. 默认排序解决，给ObjectList的排序字段给默认值即可。

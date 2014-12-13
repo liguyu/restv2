@@ -1,0 +1,17 @@
+<?xml version="1.0"  encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="test">
+	<!--用户类型-->
+	<class entity-name="t_sellgas">
+		<id name="id" type="int">
+			<generator class="identity"></generator>
+		</id>
+		<property name="userarea" type="string"/>
+		<property name="usertype" type="string"/>
+		<property name="metertype" type="string"/>
+		<property name="gas" type="int"/>
+		<property name="money" type="double"/>
+	</class>
+</hibernate-mapping>

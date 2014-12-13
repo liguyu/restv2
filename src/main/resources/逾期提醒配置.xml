@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml>
+	<function NAME="民用合同签订" SQL="select a.f_username,a.f_state, round((sysdate - p.plandate),0) as days from t_apply  a left join   t_proschstep  p on p.applyid = a.id and p.stepname = a.f_state where a.f_state='合同签订' and p.plandate is not null and p.finishdate is null and  (sysdate - p.plandate ) > 0 "></function>
+	
+ </xml>
+      
+         
+         
+      
+         
+    

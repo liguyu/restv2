@@ -1,0 +1,108 @@
+引用部分：
+	xmlns:local="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Data"
+	xmlns:primitives="clr-namespace:System.Windows.Controls.Primitives;assembly=System.Windows"
+	xmlns:localprimitives="clr-namespace:System.Windows.Controls.Primitives;assembly=System.Windows.Controls.Data"
+	xmlns:dataInput="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Data.Input"
+	xmlns:vsm="clr-namespace:System.Windows;assembly=System.Windows"    
+
+样式部分：
+<Style TargetType="local:DataGridRowGroupHeader">
+    <Setter Property="Cursor" Value="Arrow" />
+    <Setter Property="IsTabStop" Value="False" />
+    <Setter Property="Background" Value="#FFE4E8EA" />
+    <Setter Property="Height" Value="20"/>
+    <Setter Property="Template">
+        <Setter.Value>
+            <ControlTemplate TargetType="local:DataGridRowGroupHeader">
+                <localprimitives:DataGridFrozenGrid Name="Root" Background="{TemplateBinding Background}">
+                    <vsm:VisualStateManager.VisualStateGroups>
+                        <vsm:VisualStateGroup x:Name="CurrentStates">
+                            <vsm:VisualState x:Name="Regular"/>
+                            <vsm:VisualState x:Name="Current">
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="FocusVisual" Storyboard.TargetProperty="Opacity" To="1" Duration="0" />
+                                </Storyboard>
+                            </vsm:VisualState>
+                        </vsm:VisualStateGroup>
+                    </vsm:VisualStateManager.VisualStateGroups>
+                    <localprimitives:DataGridFrozenGrid.Resources>
+                        <ControlTemplate x:Key="ToggleButtonTemplate" TargetType="ToggleButton">
+                            <Grid Background="Transparent">
+                                <vsm:VisualStateManager.VisualStateGroups>
+                                    <vsm:VisualStateGroup x:Name="CommonStates">
+                                        <vsm:VisualState x:Name="Normal"/>
+                                        <vsm:VisualState x:Name="MouseOver">
+                                            <Storyboard>
+                                                <ColorAnimation Storyboard.TargetName="CollapsedArrow" Storyboard.TargetProperty="(Stroke).Color" Duration="0" To="#FF6DBDD1"/>
+                                                <ColorAnimation Storyboard.TargetName="ExpandedArrow" Storyboard.TargetProperty="(Fill).Color" Duration="0" To="#FF6DBDD1"/>
+                                            </Storyboard>
+                                        </vsm:VisualState>
+                                        <vsm:VisualState x:Name="Pressed">
+                                            <Storyboard>
+                                                <ColorAnimation Storyboard.TargetName="CollapsedArrow" Storyboard.TargetProperty="(Stroke).Color" Duration="0" To="#FF6DBDD1"/>
+                                                <ColorAnimation Storyboard.TargetName="ExpandedArrow" Storyboard.TargetProperty="(Fill).Color" Duration="0" To="#FF6DBDD1"/>
+                                            </Storyboard>
+                                        </vsm:VisualState>
+                                        <vsm:VisualState x:Name="Disabled">
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="0" Storyboard.TargetName="CollapsedArrow" Storyboard.TargetProperty="Opacity" To=".5"/>
+                                                <DoubleAnimation Duration="0" Storyboard.TargetName="ExpandedArrow" Storyboard.TargetProperty="Opacity" To=".5"/>
+                                            </Storyboard>
+                                        </vsm:VisualState>
+                                    </vsm:VisualStateGroup>
+                                    <vsm:VisualStateGroup x:Name="CheckStates">
+                                        <vsm:VisualState x:Name="Checked" />
+                                        <vsm:VisualState x:Name="Unchecked">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetName="CollapsedArrow" Storyboard.TargetProperty="Visibility">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetName="ExpandedArrow" Storyboard.TargetProperty="Visibility">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </vsm:VisualState>
+                                    </vsm:VisualStateGroup>
+                                </vsm:VisualStateManager.VisualStateGroups>
+
+                                <Path Stretch="Uniform" Data="F1 M 0,0 L 0,1 L .6,.5 L 0,0 Z" Width="5" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="CollapsedArrow" Visibility="Collapsed" Stroke="#FF414345"/>
+                                <Path Stretch="Uniform" Data="F1 M 0,1 L 1,1 L 1,0 L 0,1 Z" Width="6" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="ExpandedArrow" Fill="#FF414345"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </localprimitives:DataGridFrozenGrid.Resources>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Rectangle Grid.Column="1" Grid.ColumnSpan="5" Fill="#FFFFFFFF" Height="1"/>
+                    <Rectangle Grid.Column="1" Grid.Row="1" Name="IndentSpacer" />
+                    <ToggleButton Grid.Column="2" Grid.Row="1" Name="ExpanderButton" Height="15" Width="15" IsTabStop="False" Template="{StaticResource ToggleButtonTemplate}" Margin="2,0,0,0"/>
+
+                    <StackPanel Grid.Column="3" Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,1,0,1">
+                        <TextBlock x:Name="PropertyNameElement" Margin="4,0,0,0" Visibility="{TemplateBinding PropertyNameVisibility}"/>
+                    <ContentPresenter
+                        Content="{Binding}"
+                        ContentTemplate="{TemplateBinding a:ControlAttach.ContentTemplate}"/>                       
+						<TextBlock x:Name="ItemCountElement" Margin="4,0,0,0" Visibility="{TemplateBinding ItemCountVisibility}"/>
+                    </StackPanel>
+
+                    <Rectangle Grid.Column="1" Grid.ColumnSpan="5" Fill="#FFD3D3D3" Height="1" Grid.Row="2"/>
+                    <Rectangle Name="FocusVisual" Grid.Column="1" Grid.ColumnSpan="4" Grid.RowSpan="3" Stroke="#FF6DBDD1" StrokeThickness="1" HorizontalAlignment="Stretch" 
+                               VerticalAlignment="Stretch" IsHitTestVisible="false" Opacity="0" />
+                    <localprimitives:DataGridRowHeader Name="RowHeader" Grid.RowSpan="3" localprimitives:DataGridFrozenGrid.IsFrozen="True"/>
+
+                </localprimitives:DataGridFrozenGrid>
+            </ControlTemplate>
+        </Setter.Value>
+    </Setter>
+</Style>

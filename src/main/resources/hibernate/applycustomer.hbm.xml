@@ -1,0 +1,28 @@
+﻿<?xml version="1.0"  encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <!--报建申请 花名册-->
+    <class   entity-name="t_applycustomer" table="t_applycustomer" >
+		<id name="id" column="userid" type="int">
+			<generator class="identity"></generator>
+		</id>
+		<property name="name" type="string"/>
+		<property name="birthday" type="date"/>
+		<property name="time" type="time"/>
+		<property name="caninstall" type="boolean"/>
+		<property name="money" type="double"/>
+        <!-- 用户图片 -->
+	    <set name="userimages"   >
+          <key column="userid" on-delete="noaction" /> 
+          <one-to-many entity-name="t_userimages" not-found="exception"   /> 
+        </set>       
+	</class> 
+	<!--用户图片-->
+	<class entity-name="t_userimages" table="t_userimages">
+	    <id name="id" type="string"/>
+	    <property name="f_description" type="string"></property>  
+	</class>	
+	
+</hibernate-mapping>

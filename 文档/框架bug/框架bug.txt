@@ -1,0 +1,2 @@
+1. PropertySetter在Value属性变化时未回设到对象属性
+	<o:PropertySetter PropertyName="f_state" Value="{m:Exp Str=this\=\=$未处理$:$已处理$\,this}" />

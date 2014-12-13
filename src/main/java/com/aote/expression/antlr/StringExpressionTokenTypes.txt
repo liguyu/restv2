@@ -1,0 +1,10 @@
+// $ANTLR 2.7.6 (2005-12-22): stringExpression.g -> StringExpressionTokenTypes.txt$
+StringExpression    // output token vocab name
+DOT=4
+ID=5
+LEFT=6
+RIGHT=7
+NUMBER=8
+COMMA=9
+STRING=10
+PARAMS=11

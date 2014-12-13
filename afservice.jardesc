@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="GBK" standalone="no"?>
+<jardesc>
+    <jar path="restV2/afservice.jar"/>
+    <options buildIfNeeded="true" compress="true" descriptionLocation="/restV2/afservice.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="true" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
+    <selectedProjects/>
+    <manifest generateManifest="true" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
+        <sealing sealJar="false">
+            <packagesToSeal/>
+            <packagesToUnSeal/>
+        </sealing>
+    </manifest>
+    <selectedElements exportClassFiles="true" exportJavaFiles="true" exportOutputFolder="false">
+        <javaElement handleIdentifier="=restV2/src\/main\/java&lt;com.aote.rs"/>
+    </selectedElements>
+</jardesc>

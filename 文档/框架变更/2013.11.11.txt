@@ -1,0 +1,16 @@
+1. 如果配置了MultiPath且不为空，则Path改变时，不加载，避免重复加载。MultiPath变化时
+已经加载过了。
+
+2. PageObjectList, 修改如下bug
+
+2.1 在加载时，只有Path跟MultiPath都不为空，才加载。
+
+2.2 增加了PropertySetter的处理功能。
+
+2.3 Index小于0，不加载数据。
+
+3. Today改成与Now一致，取服务器时间了。
+
+4. 纠正了表达式解析时，绑定重复问题。
+
+5. RunLib添加了给Grid设置列宽度的功能。

@@ -1,0 +1,145 @@
+﻿<UserControl x:Class="s2.Pages.现场勘查"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:r="clr-namespace:Com.Aote.Reports;assembly=s2DLL"
+    xmlns:a="clr-namespace:Com.Aote.Attachs;assembly=s2DLL"
+    xmlns:o="clr-namespace:Com.Aote.ObjectTools;assembly=s2DLL"
+    xmlns:b="clr-namespace:Com.Aote.Behaviors;assembly=s2DLL"
+    xmlns:m="clr-namespace:Com.Aote.Marks;assembly=s2DLL"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300" d:DesignWidth="400">
+    
+    <UserControl.Resources>
+        <Style x:Key="teststyle" TargetType="r:HeadLeftReport">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="r:HeadLeftReport">
+                        <ContentControl x:Name="body"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    
+    <Grid x:Name="LayoutRoot" Background="White">
+        <r:HeadLeftReport x:Name="report" Style="{StaticResource teststyle}">
+            <r:HeadLeftReport.TableBodyItems>
+                <o:ObjectList WebClientInfo="{StaticResource dbclient}" 
+                              Path="select new map(userarea as userarea, usertype as usertype, metertype as metertype, count(*) as count, sum(gas) as gas, sum(money) as money) from t_sellgas group by userarea, usertype, metertype"></o:ObjectList>
+            </r:HeadLeftReport.TableBodyItems>
+            <r:HeadLeftReport.TableBodyTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock 
+                            Text="{m:Exp Str='data.Objects[value.userarea==value2.name and value.usertype==value1.name and value.metertype==$卡表].gas'}"/>
+                        <TextBlock Grid.Column="1" TextWrapping="Wrap" 
+                            Text="{m:Exp Str='data.Objects[value.userarea==value2.name and value.usertype==value1.name and value.metertype==$卡表].money'}"/>
+                        <TextBlock Grid.Column="2" TextWrapping="Wrap" 
+                            Text="{m:Exp Str='data.Objects[value.userarea==value2.name and value.usertype==value1.name and value.metertype==$卡表].count'}"/>
+                        <TextBlock Grid.Row="1" TextWrapping="Wrap" 
+                            Text="{m:Exp Str='data.Objects[value.userarea==value2.name and value.usertype==value1.name and value.metertype==$机表].gas'}"/>
+                        <TextBlock Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" 
+                            Text="{m:Exp Str='data.Objects[value.userarea==value2.name and value.usertype==value1.name and value.metertype==$机表].money'}"/>
+                        <TextBlock Grid.Column="2"  Grid.Row="1" TextWrapping="Wrap" 
+                            Text="{m:Exp Str='data.Objects[value.userarea==value2.name and value.usertype==value1.name and value.metertype==$机表].count'}"/>
+                        <TextBlock Grid.Row="2" TextWrapping="Wrap" 
+                            Text="{m:Exp Str='data.Objects[value.userarea==data.Col.name and value.usertype==data.Row.name].Sum(gas)'}"/>
+                        <TextBlock Grid.Column="1" Grid.Row="2" TextWrapping="Wrap"
+                            Text="{m:Exp Str='data.Objects[value.userarea==data.Col.name and value.usertype==data.Row.name].Sum(money)'}"/>
+                        <TextBlock Grid.Column="2"  Grid.Row="2" TextWrapping="Wrap"
+                            Text="{m:Exp Str='data.Objects[value.userarea==data.Col.name and value.usertype==data.Row.name].Sum(count)'}"/>
+                    </Grid>
+                </DataTemplate>
+            </r:HeadLeftReport.TableBodyTemplate>
+            <r:HeadLeftReport.TailTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock 
+                            Text="{m:Exp Str='data.Objects[value.userarea==data.Col.name and value.metertype==$卡表$].Sum(gas)'}"/>
+                        <TextBlock Grid.Column="1" TextWrapping="Wrap" 
+                            Text="{m:Exp Str='data.Objects[value.userarea==data.Col.name and value.metertype==$卡表$].Sum(money)'}"/>
+                        <TextBlock Grid.Column="2" TextWrapping="Wrap" 
+                            Text="{m:Exp Str='data.Objects[value.userarea==data.Col.name and value.metertype==$卡表$].Sum(count)'}"/>
+                        <TextBlock Grid.Row="1" TextWrapping="Wrap" 
+                            Text="{m:Exp Str='data.Objects[value.userarea==data.Col.name and value.metertype==$机表$].Sum(gas)'}"/>
+                        <TextBlock Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" 
+                            Text="{m:Exp Str='data.Objects[value.userarea==data.Col.name and value.metertype==$机表$].Sum(money)'}"/>
+                        <TextBlock Grid.Column="2"  Grid.Row="1" TextWrapping="Wrap" 
+                            Text="{m:Exp Str='data.Objects[value.userarea==data.Col.name and value.metertype==$机表$].Sum(count)'}"/>
+                        <TextBlock Grid.Row="2" TextWrapping="Wrap" 
+                            Text="{m:Exp Str='data.Objects[value.userarea==data.Col.name].Sum(gas)'}"/>
+                        <TextBlock Grid.Column="1" Grid.Row="2" TextWrapping="Wrap"
+                            Text="{m:Exp Str='data.Objects[value.userarea==data.Col.name].Sum(money)'}"/>
+                        <TextBlock Grid.Column="2"  Grid.Row="2" TextWrapping="Wrap"
+                            Text="{m:Exp Str='data.Objects[value.userarea==data.Col.name].Sum(count)'}"/>
+                    </Grid>
+                </DataTemplate>
+            </r:HeadLeftReport.TailTemplate>
+            <r:HeadLeftReport.TableHeaderItems>
+                <o:ObjectList WebClientInfo="{StaticResource dbclient}" Path="from t_userarea"></o:ObjectList>
+            </r:HeadLeftReport.TableHeaderItems>
+            <r:HeadLeftReport.TableHeaderTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.ColumnSpan="3" Text="{Binding name}"/>
+                        <TextBlock Grid.Row="1" TextWrapping="Wrap" Text="气量"/>
+                        <TextBlock Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" Text="金额"/>
+                        <TextBlock Grid.Column="2"  Grid.Row="1" TextWrapping="Wrap" Text="笔数"/>
+                    </Grid>
+                </DataTemplate>
+            </r:HeadLeftReport.TableHeaderTemplate>
+            <r:HeadLeftReport.TableLeftItems>
+                <o:ObjectList WebClientInfo="{StaticResource dbclient}" Path="from t_usertype"></o:ObjectList>
+            </r:HeadLeftReport.TableLeftItems>
+            <r:HeadLeftReport.TableLeftTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.RowSpan="3" Text="{Binding name}"/>
+                        <TextBlock Grid.Column="1" TextWrapping="Wrap" Text="卡表"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" TextWrapping="Wrap" Text="机表"/>
+                        <TextBlock Grid.Row="2"  Grid.Column="1" TextWrapping="Wrap" Text="合计"/>
+                    </Grid>
+                </DataTemplate>
+            </r:HeadLeftReport.TableLeftTemplate>
+        </r:HeadLeftReport>
+    </Grid>
+</UserControl>

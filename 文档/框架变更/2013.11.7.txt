@@ -1,0 +1,10 @@
+1. GeneralObject新增IndexOf方法用于确定其在某个列表中的索引号。
+
+2. BaseObjectList新增Last方法确定最后一项数据。
+
+3. RunLib
+3.1 新增EndItem方法用于机表交费时根据金额回算可以交的月份。
+3.2 条件过滤时，如果过滤条件产生空指针，当做否。
+3.3 新增Pos方法用于确定某对象在某个列表中的位置。
+
+4. BatchExcuteAction增加了Saving事件表示开始保存了

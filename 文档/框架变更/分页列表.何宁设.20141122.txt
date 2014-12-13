@@ -1,0 +1,33 @@
+变更原因：
+
+分页列表，如果不在第一页，数据数量发生变化，查询后，会回到第一页。实际情况是，
+必须保持在该页不变。
+
+问题根源：
+
+DataPager的Source改变后，PageIndex会自动回到0。
+
+解决方案：
+
+DataPager的Source开始设定好以后，不要发生变化。数据数量变化后，通知DataPager。
+
+具体办法：
+
+1. 修改BasePagedList，增加PagedView属性。DataPager的Source绑定到这个属性上，如下：
+
+<DataPager Source={m:Exp Str=list.PagedView}/>
+
+2. PagedView是一个PagedCollectionView, DataPager的Source必须是PagedCollectionView。
+
+3. PagedView使用一个特殊的list（MyList）构造。
+
+4. MyList提供枚举过程，并当Count发生变化时，通过OnCollectionChanged方法通知外界
+Collection发生了变化。
+
+5. MyList构造时，需要一个BaseObjectList参数，当BaseObjectList的Count发生变化时，
+MyList的Count随之变化。
+
+配置变化：
+
+将DataPager的Source设置成如下格式即可，
+Source={m:Exp Str=list.PagedView}

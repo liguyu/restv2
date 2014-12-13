@@ -1,0 +1,56 @@
+﻿<UserControl
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+	mc:Ignorable="d"
+	x:Class="Com.Aote.Controls.Month"
+	d:DesignWidth="640" d:DesignHeight="480">
+
+	<Grid x:Name="LayoutRoot">
+		<toolkit:DockPanel>
+			<Button x:Name="clear" Content="X" toolkit:DockPanel.Dock="Right" Click="clear_Click"/>
+			<ToggleButton x:Name="toggle" Content="..." toolkit:DockPanel.Dock="Right"/>
+			<TextBox IsReadOnly="True" x:Name="text" TextWrapping="Wrap"/>
+		</toolkit:DockPanel>
+		<Popup IsOpen="{Binding IsChecked, ElementName=toggle}" Margin="0,30,0,0">
+			<Grid Background="#FFE5E5E5" Height="200">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="310"/>
+					<ColumnDefinition Width="100"/>
+				</Grid.ColumnDefinitions>
+				<toolkit:DockPanel>
+					<TextBlock TextWrapping="Wrap" Text="年" toolkit:DockPanel.Dock="Top"/>
+					<ListBox x:Name="yearlist" SelectionChanged="yearlist_SelectionChanged">
+						<ListBox.ItemsPanel>
+							<ItemsPanelTemplate>
+								<toolkit:WrapPanel Width="280"/>
+							</ItemsPanelTemplate>
+						</ListBox.ItemsPanel>
+						<ListBox.ItemTemplate>
+							<DataTemplate>
+								<TextBlock Width="50" Text="{Binding}"/>
+							</DataTemplate>
+						</ListBox.ItemTemplate>
+					</ListBox>
+				</toolkit:DockPanel>
+				<toolkit:DockPanel Grid.Column="1">
+					<TextBlock TextWrapping="Wrap" Text="月" toolkit:DockPanel.Dock="Top"/>
+					<ListBox x:Name="monthlist" SelectionChanged="monthlist_SelectionChanged">
+						<ListBox.ItemsPanel>
+							<ItemsPanelTemplate>
+								<toolkit:WrapPanel Width="95"/>
+							</ItemsPanelTemplate>
+						</ListBox.ItemsPanel>
+						<ListBox.ItemTemplate>
+							<DataTemplate>
+								<TextBlock Width="25" Text="{Binding}"/>
+							</DataTemplate>
+						</ListBox.ItemTemplate>
+					</ListBox>
+				</toolkit:DockPanel>
+			</Grid>
+		</Popup>
+	</Grid>
+</UserControl>

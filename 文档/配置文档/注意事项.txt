@@ -1,0 +1,90 @@
+1. DatePicker组件日期属性应该是SelectedDate，不是Text
+
+2. 取系统默认日期时，必须写成SysTime.Today，不能是SysTime.Now
+
+3. 表格式编辑时，自己定义的编辑框，必须参考 申请登记中 用户列表部分的 生日方式，也就是同时配置
+CellTemplate用于显示，配置CellEditingTemplate用于编辑
+
+4. 表格式编辑的列表对象如果在TabControl的非第一个TabItem中，参考申请登记中 用户列表部分，将列表放到
+ResourceLoad中，不能采用附加方式。
+
+5 提示对象配置
+  参看界面 大厅报建 
+  <c:MessageTipObj Name="savetip" Tip="abcdefg" OK="{m:Exp Str=person.DataContext.Save()}" />
+  在保存按钮配置Click="{m:Exp Str=savetip.Show()}"显示提示对话框，在界面任意位置放置提示对象，Tip为提示信息,提示对象有两个事件
+   OK Cancel,在这两个事件中可以配置需要执行的内容
+
+   
+6 单打印对象  PrintObj,使用方法，参考大厅报建
+界面任意地方声明 <c:PrintObj x:Name="print" Area="{m:Res Key=person }" />
+Area指的是打印区域，然后在按钮配置Click="{m:Exp Str=print.Print()}">
+
+  分页打印，参看功能页面 分页打印.xaml,
+ 界面任意一个地方配置如下
+  <c:PrintPageObj Name="pageprint" Area="{m:Res Key=printArea}"  List="{m:Exp Str=persons.ItemsSource}"  PageRow="2"  />
+    area是打印区域 list是打印的数据 PageRow是每页打印行数
+  
+7 弹出子窗口
+   1) 制作子窗口页面，这个根据业务做，注意该页面的类继承改为  CustomChildWindow
+     CustomChildWindow 增加了属性 ReturnValue object类型，用户获得返回值
+   2) 界面上声明打开子窗口的对象
+           <m:ResourceLoad>
+			       <o:ChildWindowObj Name="cc" CWName="/Pages/TestOpen" />
+	    	</m:ResourceLoad>
+	    	
+	    	ChildWindowObj对象有三个属性 CWName 子窗口名称  
+	    	                            IsOpen bool型 
+	    	                            Result object类型     获取子窗口的返回值
+   3) 参考
+   	   <Grid HorizontalAlignment="Stretch" Height="Auto" Margin="56,106,230,88" Grid.Row="4" VerticalAlignment="Stretch" Width="Auto">
+	   		<m:ResourceLoad>
+			       <o:ChildWindowObj Name="cc" CWName="/Pages/TestOpen" />
+	    	</m:ResourceLoad>
+	   		<Button Content="Button" Margin="8,18,126,0" Click="{m:Exp Str='cc.IsOpen=True'}" Height="27" VerticalAlignment="Top"/>
+	   		<sdk:Label Height="67" Margin="72,0,97,8" Content="{m:Exp Str='cc.Result'}" VerticalAlignment="Bottom"/>
+			
+	   	</Grid>
+	   	
+	   	
+8 excel导入数据
+	1)配置列表对象，设置exlcel导入参数。EntityType：实体对象类型，ExcelKey：主键（如果主键值相同则覆盖记录）
+	参考：<o:ObjectList Name="userlist" EntityType="t_applycustomer" ExcelKey="Index,f_substate" />
+	
+	2)事件触发配置
+	参考：<Button Content="导入Excel数据  "  Click="{m:Exp Str=userlist.ExcelString\=Clipboard.Text}" />
+	
+	
+9 可编辑下拉框配置
+<c:EditComboBox DisplayMemberPath="name" SelectedValuePath="name" ItemsSource="{m:Exp Str=piqulist}" Value="{m:Bind Path=f_area}" Grid.Column="5" Margin="0,8,0,7" Grid.Row="2" Height="25" />
+	1)配置显示属性和值属性，itemsSource可以配置数据集也可以直接使用<ComboBoxItem Content="选项一" />,Value用于绑定到对象属性值
+
+
+10 类型转换函数
+	出现类型错误时，请注意使用以下的类型转换函数
+	1）ToDate()，把字符串或者hibernate中的日期类型转换成C#可以认的日期类型
+	2）ToInt()，把字符串或者hibernate中的整形转换层C#的整形
+	3）ToObjectList()，把迭代转换成通用对象列表
+	
+11 保存数据对象前设置对象属性
+	<Button Content="保存" IsEnabled="{m:Exp Str='!anjian.HasErrors'}" Name="saveButton" Click="{m:Exp Str=anjian.f_state\=$已处理$;anjian.Save()}" />
+
+12 通过输入编号或选择列表项显示对象数据信息
+	1）对象编号属性绑定到列表选中项的编号属性
+	2）对象在编号变化的时候查询信息
+	<o:PropertySetter PropertyName="f_userid" Value="{m:Exp Str=anjianesList.SelectedItem!\=null:anjianesList.SelectedItem.f_userid\,anjian.f_userid}" />
+	<o:GeneralObject Name="anjian" EntityType="t_anjianlist" WebClientInfo="{StaticResource dbclient}" IsInit="{m:Exp Str=this.State\=\=$End$}"
+                Path="{m:Exp Str=$one/from t_anjianlist where f_userid\=\'\{anjian.f_userid\}\' and f_state\=\'未处理\'$}"/>
+
+13 DataGrid分组配置
+ 	1）复制DataGridRowGroupHead中的内容到自己的资源文件中
+ 	2) 在m:ResourceLoad里添加<o:ObjectListView Name="projectview" Source="{m:Exp Str=project}" GroupProperties="f_people"/>
+ 	其中，Source是一个普通的ObjectList， GroupProperties是逗号分隔的多级分组属性名列表。
+ 	3) 修改DataGrid的ItemsSource属性为ObjectListView.View，如：ItemsSource="{m:Exp Str=projectview.View}"
+ 	4）给DataGrid附加a:ControlAttach.GroupRowTemplate，确定分组行信息显示，分组行的数据中有一个Items属性，是改分组的所有数据对象。
+ 	模板例子如下：
+ 	<a:ControlAttach.GroupRowTemplate>
+	<DataTemplate>
+		<TextBlock Text="{m:Exp Str='${data.Name}-{data.Items[True].Sum(f_count)}$'}"></TextBlock>
+	</DataTemplate>
+ 	
+ 	

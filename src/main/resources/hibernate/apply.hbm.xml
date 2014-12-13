@@ -1,0 +1,67 @@
+﻿<?xml version="1.0"  encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <!--报建申请表-->
+	<class   entity-name="t_apply" table="t_apply" dynamic-update="true">
+		<id name="id" type="int">
+			<generator class="identity"></generator>
+		</id>
+		<!-- 申请人 -->
+	 	<property name="f_username" type="string"/>
+	 	<!-- 申请单位 -->
+	 	<property name="f_applydept" type="string"/>
+		<property name="f_code" type="string"/>
+		<property name="f_address" type="string"/>
+		<property name="f_phone" type="string"/>
+		<property name="f_applydate" type="string"/>
+		<!--区域选择-->
+		<property name="f_area" type="string"/>
+		<!--用气类型-->
+		<property name="f_gastype" type="string"/>
+		<!--用户类型-->
+		<property name="f_usertype" type="string"/>
+		<property name="f_usertypepro" type="string"/>
+		<!--申请状态-->
+		<property name="f_applystate" type="string"/>
+		<!--申请户数-->
+		<property name="f_applycount" type="int"/>
+		<!--热水器台数-->
+		<property name="f_geyser" type="int"/>
+		<!--壁挂炉台数-->
+		<property name="f_boiler" type="double"/>
+		<!--状态-->
+		<property name="f_state" type="string"/>
+		<!--状态开始时间-->
+		<property name="f_statedate" type="string"/>
+		
+		<!--操作人所在部门-->
+		<property name="f_department" type="string"/>
+		<!--填写日期-->
+		<property name="f_date" type="string"/>
+		<!--填写时间-->
+		<property name="f_datetime" type="string"/>
+		<!--填写人-->
+		<property name="f_opertor" type="string"/>
+		<!-- 是否提交  -->
+		<property name="f_issubmit" type="boolean"/>
+		<property name="blobid" type="string"/>
+	 	<!-- 下面是对于的花名册表 -->
+	    <set name="t_applycustomer">
+          <key column="applyid" on-delete="noaction" /> 
+          <one-to-many entity-name="t_applycustomer" not-found="exception"   /> 
+        </set>       
+        <!-- 报建图片 -->
+	    <set name="t_applyimages"   >
+          <key column="applyid" on-delete="noaction" /> 
+          <one-to-many entity-name="t_applyimages" not-found="exception"   /> 
+        </set>       
+	</class>
+	
+   	<!--报建图片-->
+	<class entity-name="t_applyimages" table="t_applyimages">
+	    <id name="id" type="string"/>
+	    <property name="f_description" type="string"></property>  
+	</class>	
+</hibernate-mapping>

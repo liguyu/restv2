@@ -1,0 +1,19 @@
+<?xml version="1.0"  encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="test">
+	<!--病人(patient)表-->
+	<class entity-name="patient" table="patient" dynamic-update="true">
+		<id name="id" type="int">
+			<generator class="identity"></generator>
+		</id>
+		<property name="name" type="string"/>
+		<property name="age" type="int"/>
+		<property name="address" type="string"/>
+		<property name="sellno" type="string" />
+	    <property name="sex" type="string" />
+	    <property name="operdate" type="string"/>
+	    <property name="payfee" type="boolean"/>
+	</class>
+</hibernate-mapping>

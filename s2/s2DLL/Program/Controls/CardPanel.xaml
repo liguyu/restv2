@@ -1,0 +1,73 @@
+﻿<UserControl x:Class="Com.Aote.Controls.CardPanel"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:c="clr-namespace:Com.Aote.Controls"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" x:Name="Control">
+
+    <UserControl.Resources>
+        <c:TransformData x:Key="TransformData"></c:TransformData>     
+        <Storyboard x:Name="Storyboard">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Storyboard.TargetName="Viewbox">
+                <EasingDoubleKeyFrame KeyTime="0" Value="{Binding Source={StaticResource TransformData}, Path=StartScale}">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <PowerEase EasingMode="EaseIn"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="{Binding Source={StaticResource TransformData}, Path=EndScale}">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <QuarticEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="Viewbox">
+                <EasingDoubleKeyFrame KeyTime="0" Value="{Binding Source={StaticResource TransformData}, Path=StartScale}">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <PowerEase EasingMode="EaseIn"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="{Binding Source={StaticResource TransformData}, Path=EndScale}">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <QuarticEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="Viewbox">
+                <EasingDoubleKeyFrame KeyTime="0" Value="{Binding Source={StaticResource TransformData}, Path=StartTranslateX}">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <PowerEase EasingMode="EaseIn"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="{Binding Source={StaticResource TransformData}, Path=EndTranslateX}">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <QuarticEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="Viewbox">
+                <EasingDoubleKeyFrame KeyTime="0" Value="{Binding Source={StaticResource TransformData}, Path=StartTranslateY}">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <PowerEase EasingMode="EaseIn"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="{Binding Source={StaticResource TransformData}, Path=EndTranslateY}">
+                    <EasingDoubleKeyFrame.EasingFunction>
+                        <QuarticEase EasingMode="EaseOut"/>
+                    </EasingDoubleKeyFrame.EasingFunction>
+                </EasingDoubleKeyFrame>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </UserControl.Resources>
+
+    <Grid x:Name="Layout" Background="{Binding Background, ElementName=Control}">
+        <Viewbox x:Name="Viewbox" Width="{Binding ElementName=Layout, Path=Width}" Height="{Binding ElementName=Layout, Path=Height}">
+            <Viewbox.RenderTransform>
+                <CompositeTransform/>
+            </Viewbox.RenderTransform>
+            <Canvas Name="Canvas" Width="{Binding ElementName=Viewbox, Path=Width}" Height="{Binding ElementName=Viewbox, Path=Height}">
+            </Canvas>
+        </Viewbox>
+    </Grid>        
+        
+</UserControl>

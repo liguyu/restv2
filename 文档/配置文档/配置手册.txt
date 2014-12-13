@@ -1,0 +1,17 @@
+1. 表达式说明
+
+2. 常用对象说明
+
+2.1 GeneralObject
+
+2.1.1 属性
+
+CanSave - 为True时，对象将保存数据。大部分情况下不用。
+
+2.2 BasicObjectList
+
+2.2.1 属性
+
+Error - 字符串型，加载数据产生错误时的错误信息。 
+State - 枚举型，对象的活动状态，包括
+  LoadError - 数据加载错误
