@@ -180,7 +180,8 @@ namespace Com.Aote.Utils
             result = pi.GetValue(o, null);
             return result;
         }
-
+        //获取对象值
+        //测试ignore使用
         public static object GetPropertyValue(object o, PropertyInfo pi)
         {
             object result = pi.GetValue(o, null);
