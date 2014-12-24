@@ -42,6 +42,22 @@ namespace Com.Aote.Controls
         }
         #endregion
 
+        #region IsDirect 是否直接打印，和UseDefaultPrinter属性加重了,为了兼容更新，保留
+        private bool isDirect = true;
+
+        public bool IsDirect
+        {
+            get { return isDirect; }
+            set
+            {
+                if (isDirect != value)
+                {
+                    isDirect = value;
+                }
+            }
+        }
+        #endregion
+
         #region State 打印状态
         public static readonly DependencyProperty StateProperty =
             DependencyProperty.Register("State", typeof(State), typeof(PrintObj), null);
@@ -157,9 +173,17 @@ namespace Com.Aote.Controls
                 AsyncCompletedEventArgs args1 = new AsyncCompletedEventArgs(null, true, State.End);
                 OnCompleted(args1);
             };
-            //pd.Print("");
-             pd.Print("", null, userDefaultPrinter);
-          
+            //默认打印机
+            if(userDefaultPrinter || isDirect)
+            {
+                pd.Print("", null, userDefaultPrinter);
+            }
+            else
+            {
+                pd.Print("");
+  
+            }
+           
         }
 
         /// <summary>
