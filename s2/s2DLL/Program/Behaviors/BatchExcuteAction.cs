@@ -24,6 +24,86 @@ namespace Com.Aote.Behaviors
     public class Batchs : List<BatchInfo> { }
 
     /// <summary>
+    /// 处理的业务模式：有个主对象，有一组从对象，主对象和从对象之间无关联，需要在主对象和从对象之间建立关联并保存
+    /// 主对象由EntityType来决定，从对象集合由sql或hql查询得到，如果从sql得到，需要提供列名Names
+    /// </summary>
+    public class DeferredReferenceBatchInfo : BatchInfo
+    {
+        /// <summary>
+        /// 如果是sql语句，需要给出各列列名
+        /// </summary>
+        public String Names { get; set; }
+
+        /// <summary>
+        /// 主实体名
+        /// </summary>
+        public String EntityType { get; set; }
+        /// <summary>
+        /// 从实体名
+        /// </summary>
+        public String ReferenceEntityType { get; set; }
+
+        /// <summary>
+        /// 值为sql或hql
+        /// </summary>
+        public String Path { get; set; }
+
+        /// <summary>
+        /// 主表实体hbm.xml中配的从表集合的名字
+        /// </summary>
+        public String Reference { get; set; }
+
+        /// <summary>
+        /// 返回ToJson方法
+        /// </summary>
+        /// 
+        public override MethodInfo Method
+        {
+            get
+            {
+                return this.GetType().GetMethod("ToJson");
+            }
+        }
+
+        #region HQL 要执行的HQL或者SQL语句
+        /// <summary>
+        /// 要执行的HQL语句，可以采用绑定机制，根据界面数据产生这个语句。
+        /// </summary>
+        public string HQL
+        {
+            get { return (string)GetValue(HQLProperty); }
+            set { SetValue(HQLProperty, value); }
+        }
+
+        public static readonly DependencyProperty HQLProperty =
+            DependencyProperty.Register("HQL", typeof(string), typeof(DeferredReferenceBatchInfo),
+            null);
+        #endregion
+
+        /// <summary>
+        /// 把需要的数据转成json对象
+        /// </summary>
+        /// <returns></returns>
+        public JsonObject ToJson()
+        {
+            JsonObject result = new JsonObject();
+            GeneralObject go = Source as GeneralObject;
+            //设置为建立引用
+            result["operator"] = "reference";
+            //主对象
+            result["entity"] = EntityType;
+            result["data"] = go.ToJson();
+            result["reference"] = Reference;
+            //从对象
+            result["entity2"] = ReferenceEntityType;
+            result["names"] = Names;
+            result["path"] = Path;
+            result["hql"] = HQL;
+            return result;
+        }
+    }
+
+    /// <summary>
     /// 表示一个可以在xaml文件中进行配置的，把后台数据库操作数据交给批量执行动作的方法信息。
     /// 包括调用的对象以及对象的方法。
     /// </summary>
@@ -72,7 +152,7 @@ namespace Com.Aote.Behaviors
         /// <summary>
         /// 设置对象及方法名后，自动获得的方法，批处理动作将调用这个方法获得具体数据。
         /// </summary>
-        public MethodInfo Method
+        public virtual MethodInfo Method
         {
             get
             {
@@ -208,7 +288,11 @@ namespace Com.Aote.Behaviors
                     continue;
                 }
 
-                object o = batch.Method.Invoke(batch.Source, null);
+                object o = null;
+                if (batch is DeferredReferenceBatchInfo)
+                    o = batch.Method.Invoke(batch, null);
+                else
+                    o = batch.Method.Invoke(batch.Source, null);
                 //如果返回空，这项批处理不执行
                 if (o == null)
                 {
