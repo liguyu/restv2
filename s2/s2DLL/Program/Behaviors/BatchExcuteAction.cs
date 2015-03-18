@@ -18,6 +18,7 @@ using Com.Aote.Utils;
 using System.Windows.Markup;
 using System.Linq;
 using Com.Aote.Logs;
+using System.Text;
 
 namespace Com.Aote.Behaviors
 {
@@ -334,8 +335,15 @@ namespace Com.Aote.Behaviors
                 IsBusy = false;
                 if (e.Error != null)
                 {
+                    WebException we = (WebException)e.Error;
+                    HttpWebResponse response = (System.Net.HttpWebResponse)we.Response;
+
+                    byte[] b = Convert.FromBase64String(response.Headers["Warning"]);
+                    string err = Encoding.UTF8.GetString(b, 0, b.Length);
+
                     State = State.Error;
-                    Error = e.Error.GetMessage();
+                    Error = "错误码：" + (int)response.StatusCode + " 错误：" + err;
+                    MessageBox.Show("操作失败。" + Error);
                 }
                 else
                 {

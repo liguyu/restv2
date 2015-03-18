@@ -11,6 +11,7 @@ using System.Windows.Shapes;
 using System.Json;
 using System.Collections.Generic;
 using Com.Aote.Utils;
+using System.Text;
 
 namespace Com.Aote.ObjectTools
 {
@@ -45,8 +46,15 @@ namespace Com.Aote.ObjectTools
                 //通知数据提交过程完成
                 if (e.Error != null)
                 {
+                    WebException we = (WebException)e.Error;
+                    HttpWebResponse response = (System.Net.HttpWebResponse)we.Response;
+
+                    byte[] b = Convert.FromBase64String(response.Headers["Warning"]);
+                    string err = Encoding.UTF8.GetString(b, 0, b.Length);
+
                     obj.State = State.Error;
-                    obj.Error = e.Error.GetMessage();
+                    obj.Error = "错误码：" + (int)response.StatusCode + " 错误：" + err;
+                    MessageBox.Show("操作失败。" + obj.Error);
                 }
                 else
                 {
