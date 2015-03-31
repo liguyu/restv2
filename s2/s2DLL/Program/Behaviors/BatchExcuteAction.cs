@@ -338,12 +338,20 @@ namespace Com.Aote.Behaviors
                     WebException we = (WebException)e.Error;
                     HttpWebResponse response = (System.Net.HttpWebResponse)we.Response;
 
-                    byte[] b = Convert.FromBase64String(response.Headers["Warning"]);
-                    string err = Encoding.UTF8.GetString(b, 0, b.Length);
+                    String err = "网络连接错误，请检查。";
+                    try
+                    {
+                        byte[] b = Convert.FromBase64String(response.Headers["Warning"]);
+                        err = Encoding.UTF8.GetString(b, 0, b.Length);
+                    }
+                    catch(Exception)
+                    {
 
-                    State = State.Error;
+                    }
+
                     Error = "错误码：" + (int)response.StatusCode + " 错误：" + err;
-                    MessageBox.Show("操作失败。" + Error);
+                    State = State.Error;
+                    //MessageBox.Show("操作失败。" + Error);
                 }
                 else
                 {
